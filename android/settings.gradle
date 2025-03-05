@@ -1,0 +1,27 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+        maven { url 'https://storage.googleapis.com/download.flutter.io' }  // Repository cho plugin Flutter
+    }
+}
+
+plugins {
+    id "com.android.application" version "7.3.0" apply false  // Sử dụng AGP 7.3.0 cho Flutter 3.22.2
+    id "org.jetbrains.kotlin.android" version "1.9.0" apply false
+}
+
+include ':app'
+
+def localPropertiesFile = new File(rootDir, "local.properties")
+def properties = new Properties()
+
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader("UTF-8") { reader -> properties.load(reader) }
+}
+
+def flutterSdkPath = properties.getProperty("flutter.sdk")
+if (flutterSdkPath == null) {
+    throw new GradleException("Flutter SDK not found in local.properties. Please add flutter.sdk=<path-to-flutter>")
+}
